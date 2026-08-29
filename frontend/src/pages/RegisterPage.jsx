@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './RegisterPage.css'
+import { useLanguage } from '../context/LanguageContext.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 function RegisterPage() {
+  const { t } = useLanguage()
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
@@ -36,10 +38,10 @@ function RegisterPage() {
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
 
-      setMessage(response.data.message)
+      setMessage(t('registrationSuccess'))
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed')
+      setError(err.response?.data?.message || t('registrationFailed'))
     } finally {
       setLoading(false)
     }
@@ -48,43 +50,43 @@ function RegisterPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <div className="auth-badge">Create Admin Account</div>
-        <h1>Register</h1>
-        <p>Create your store owner account.</p>
+        <div className="auth-badge">{t('registerBadge')}</div>
+        <h1>{t('registerTitle')}</h1>
+        <p>{t('registerDescription')}</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
-            Full Name
+            {t('fullName')}
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Store Owner"
+              placeholder={t('fullNamePlaceholder')}
               required
             />
           </label>
 
           <label>
-            Email
+            {t('email')}
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="admin@example.com"
+              placeholder={t('emailPlaceholder')}
               required
             />
           </label>
 
           <label>
-            Password
+            {t('password')}
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Minimum 6 characters"
+              placeholder={t('passwordPlaceholder')}
               required
             />
           </label>
@@ -93,12 +95,12 @@ function RegisterPage() {
           {message ? <p className="form-message success">{message}</p> : null}
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? t('registering') : t('registerButton')}
           </button>
         </form>
 
         <p className="switch-link">
-          Already have an account? <Link to="/login">Login here</Link>
+          {t('alreadyHaveAccount')} <Link to="/login">{t('loginButton')}</Link>
         </p>
       </section>
     </main>

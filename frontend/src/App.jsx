@@ -2,13 +2,18 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
+import ProductDetailPage from './pages/ProductDetailPage.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import LanguageSwitcher from './components/LanguageSwitcher.jsx'
 
 function App() {
   const isLoggedIn = Boolean(localStorage.getItem('token'))
 
   return (
     <BrowserRouter>
+      <div className="app-language-bar">
+        <LanguageSwitcher />
+      </div>
       <Routes>
         <Route
           path="/"
@@ -21,6 +26,14 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProtectedRoute>
+              <ProductDetailPage />
             </ProtectedRoute>
           }
         />

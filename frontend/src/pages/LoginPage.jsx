@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './LoginPage.css'
+import { useLanguage } from '../context/LanguageContext.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 function LoginPage() {
+  const { t } = useLanguage()
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
@@ -35,10 +37,10 @@ function LoginPage() {
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
 
-      setMessage(response.data.message)
+      setMessage(t('loginSuccess'))
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed')
+      setError(err.response?.data?.message || t('loginFailed'))
     } finally {
       setLoading(false)
     }
@@ -47,31 +49,31 @@ function LoginPage() {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <div className="auth-badge">Kirana Store Admin</div>
-        <h1>Login</h1>
-        <p>Sign in to manage your store inventory.</p>
+        <div className="auth-badge">{t('loginBadge')}</div>
+        <h1>{t('loginTitle')}</h1>
+        <p>{t('loginDescription')}</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <label>
-            Email
+            {t('email')}
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="admin@example.com"
+              placeholder={t('emailPlaceholder')}
               required
             />
           </label>
 
           <label>
-            Password
+            {t('password')}
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder={t('passwordPlaceholder')}
               required
             />
           </label>
@@ -80,12 +82,12 @@ function LoginPage() {
           {message ? <p className="form-message success">{message}</p> : null}
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? t('loggingIn') : t('loginButton')}
           </button>
         </form>
 
         <p className="switch-link">
-          Don&apos;t have an account? <Link to="/register">Register here</Link>
+          {t('registerPrompt')} <Link to="/register">{t('registerLink')}</Link>
         </p>
       </section>
     </main>

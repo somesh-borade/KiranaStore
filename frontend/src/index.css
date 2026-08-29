@@ -36,3 +36,12 @@ button,
 input {
   font: inherit;
 }
+
+.app-language-bar {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  padding: 12px 16px 0;
+  display: flex;
+  justify-content: flex-end;
+}

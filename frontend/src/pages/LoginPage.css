@@ -106,3 +106,30 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+@media (max-width: 640px) {
+  .auth-page {
+    padding: 14px;
+    align-items: start;
+  }
+
+  .auth-card {
+    width: 100%;
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  .auth-card h1 {
+    font-size: 1.7rem;
+  }
+
+  .auth-form {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .auth-form input,
+  .auth-form button {
+    padding: 13px 14px;
+  }
+}
